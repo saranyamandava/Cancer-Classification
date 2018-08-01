@@ -1,3 +1,5 @@
+import * as tf from '@tensorflow/tfjs';
+
 /*
 variables
 */
@@ -53,7 +55,7 @@ function predict() {
     const pred = model.predict(preprocess(imgData)).dataSync()
     
     //retreive the highest probability class label 
-    let idx = pred.argMax().buffer().values[0];
+    const idx = pred.argMax();
     return idx
 }
 
