@@ -76,10 +76,6 @@ return tf.tidy(()=>{
 /*
 load the model
 */
-<!DOCTYPE html>
-<html>
-<body>
-<p id="demo"></p>
 
 <script>
 
@@ -93,7 +89,5 @@ async function start() {
     return pred;
     
 }
-document.getElementById("demo").innerHTML = start();
-</script>
-</body>
-</html>
+start();
+
