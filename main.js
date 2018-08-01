@@ -46,18 +46,25 @@ function getImageData() {
 get the prediction 
 */
 function predict() {
+	tf.tidy(() => {
+      try {
 
 
-    //get the image data from the canvas 
-    const imgData = getImageData()
+		    //get the image data from the canvas 
+		    const imgData = getImageData()
 
-    //get the prediction 
-    const pred = model.predict(preprocess(imgData)).dataSync()
-    
-    //retreive the highest probability class label 
-    const idx = pred.argMax();
-    return idx
-}
+		    //get the prediction 
+		    const pred = model.predict(preprocess(imgData)).dataSync()
+		    
+		    //retreive the highest probability class label 
+		    const idx = pred.argMax();
+		    ui.setPredictResults(pred.dataSync(), idx.dataSync()[0] + 5);
+	        } catch (e) {
+        ui.setPredictError(e.message);
+      }
+    });
+  }
+	    
 
 
 function preprocess(img)
@@ -87,8 +94,8 @@ async function start() {
     model = await tf.loadModel('model/model.json')
     
     //warm up 
-    pred = model.predict(tf.zeros([1, 28, 28, 1]))
-    return pred;
+    pred = model.predict(tf.zeros([1, 50, 50, 1]))
+    
     
 }
 start();
