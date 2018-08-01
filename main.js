@@ -28,14 +28,15 @@ function Validate(oForm) {
         }
     }
   
-    getImageData(img)
+    return img;
 }
 
 /*
 get the current image data 
 */
-function getImageData(imgData) {
+function getImageData() {
 
+    imgData = validate(oForm)
     return imgData
     }
 
@@ -75,12 +76,24 @@ return tf.tidy(()=>{
 /*
 load the model
 */
-async function start(cur_mode) {
+<!DOCTYPE html>
+<html>
+<body>
+<p id="demo"></p>
+
+<script>
+
+async function start() {
     
     //load the model 
     model = await tf.loadModel('model.json')
     
     //warm up 
-    model.predict(tf.zeros([1, 28, 28, 1]))
+    pred = model.predict(tf.zeros([1, 28, 28, 1]))
+    return pred;
     
 }
+document.getElementById("demo").innerHTML = start();
+</script>
+</body>
+</html>
