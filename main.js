@@ -4,10 +4,10 @@ import * as tf from '@tensorflow/tfjs';
 variables
 */
 var model;
-
+var img;
 var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];    
 function Validate(oForm) {
-    var img = oForm.getElementsByTagName("input");
+    img = oForm.getElementsByTagName("input");
     for (var i = 0; i < img.length; i++) {
         var oInput = img[i];
         if (oInput.type == "file") {
@@ -66,7 +66,6 @@ function predict() {
   }
 	    
 
-
 function preprocess(img)
 {
 return tf.tidy(()=>{
@@ -82,11 +81,10 @@ return tf.tidy(()=>{
     return batched
 })
 }
+
 /*
 load the model
 */
-
-<script>
 
 async function start() {
     
@@ -94,7 +92,7 @@ async function start() {
     model = await tf.loadModel('model/model.json')
     
     //warm up 
-    pred = model.predict(tf.zeros([1, 50, 50, 1]))
+    pred = model.predict(img)
     
     
 }
