@@ -123,11 +123,13 @@ function predict(imgData) {
 		const idx = pred.argMax();
 		
 		//find the predictions 
-        const indices = findIndicesOfMax(pred, 2)
-        const probs = findTopValues(pred, 2)
+        const indices = findIndicesOfMax(pred, 1)
+        const probs = findTopValues(pred, 1)
         const names = getClassNames(indices) 
         //set the table 
-        setTable(names, probs) 
+        //setTable(names, probs) 
+        document.getElementById("Result").innerHTML = names
+        document.getElementById("Probability").innerHTML = probs
     });
   }
 	    
@@ -154,19 +156,19 @@ load the model
 
 async function start(img) {
     
-    if(Validate(img))
-        //load the model 
-        model = await tf.loadModel('model/model.json')
+    #if(Validate(img))
+    //load the model 
+    model = await tf.loadModel('model/model.json')
         
-        document.getElementById('status').innerHTML = 'Model Loaded';
+    document.getElementById('status').innerHTML = 'Model Loaded';
         
-        pred = model.predict(img)
+    predict(img)
     
-        //load the class names
-        await loadDict()
+    //load the class names
+    await loadDict()
 
-    else
-        return false    
+    //else
+        //return false    
     
 }
 
