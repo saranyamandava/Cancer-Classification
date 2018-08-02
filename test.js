@@ -157,6 +157,7 @@ return tf.tidy(()=>{
 async function start(){
 	img = document.getElementById('image').files[0];
 	// if(Validate(img)){
+        console.log(img)
 	    
 	    
         
