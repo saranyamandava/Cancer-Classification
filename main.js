@@ -154,16 +154,16 @@ load the model
 
 async function start(img) {
     
-    if(Validate(img))
-        //load the model 
-        model = await tf.loadModel('model/model.json')
+    #if(Validate(img))
+    //load the model 
+    model = await tf.loadModel('model/model.json')
         
-        document.getElementById('status').innerHTML = 'Model Loaded';
-        //warm up 
-        pred = model.predict(img)
+    document.getElementById('status').innerHTML = 'Model Loaded';
+    //warm up 
+    pred = model.predict(img)
     
-        //load the class names
-        await loadDict()
+    //load the class names
+    await loadDict()
     
 }
 
