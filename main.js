@@ -88,7 +88,7 @@ find predictions
 function findTopValues(inp, count) {
     var outp = [];
     let indices = findIndicesOfMax(inp, count)
-    // show 5 greatest scores
+    // show  scores
     for (var i = 0; i < indices.length; i++)
         outp[i] = inp[indices[i]]
     return outp
@@ -137,7 +137,7 @@ function preprocess(img)
 return tf.tidy(()=>{
     //convert the image data to a tensor 
     let tensor = tf.fromPixels(img)
-    //resize to 28 x 28 
+    //resize to 50 X 50
     const resized = tf.image.resizeBilinear(tensor, [50, 50]).toFloat()
     // Normalize the image 
     const offset = tf.scalar(255.0);
@@ -154,16 +154,19 @@ load the model
 
 async function start(img) {
     
-    #if(Validate(img))
-    //load the model 
-    model = await tf.loadModel('model/model.json')
+    if(Validate(img))
+        //load the model 
+        model = await tf.loadModel('model/model.json')
         
-    document.getElementById('status').innerHTML = 'Model Loaded';
-    //warm up 
-    pred = model.predict(img)
+        document.getElementById('status').innerHTML = 'Model Loaded';
+        
+        pred = model.predict(img)
     
-    //load the class names
-    await loadDict()
+        //load the class names
+        await loadDict()
+
+    else
+        return false    
     
 }
 
