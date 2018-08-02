@@ -32,6 +32,68 @@ function Validate(oForm) {
   
     return img;
 }
+/*
+get the the class names 
+*/
+function getClassNames(indices) {
+    var outp = []
+    for (var i = 0; i < indices.length; i++)
+        outp[i] = classNames[indices[i]]
+    return outp
+}
+
+/*
+load the class names 
+*/
+async function loadDict() {
+  
+    loc = 'model2/class_names.txt'
+    
+    await $.ajax({
+        url: loc,
+        dataType: 'text',
+    }).done(success);
+}
+
+/*
+load the class names
+*/
+function success(data) {
+    const lst = data.split(/\n/)
+    for (var i = 0; i < lst.length - 1; i++) {
+        let symbol = lst[i]
+        classNames[i] = symbol
+    }
+}
+
+/*
+get indices of the top probs
+*/
+function findIndicesOfMax(inp, count) {
+    var outp = [];
+    for (var i = 0; i < inp.length; i++) {
+        outp.push(i); // add index to output array
+        if (outp.length > count) {
+            outp.sort(function(a, b) {
+                return inp[b] - inp[a];
+            }); // descending sort the output array
+            outp.pop(); // remove the last index (index of smallest element in output array)
+        }
+    }
+    return outp;
+}
+
+/*
+find the top 5 predictions
+*/
+function findTopValues(inp, count) {
+    var outp = [];
+    let indices = findIndicesOfMax(inp, count)
+    // show 5 greatest scores
+    for (var i = 0; i < indices.length; i++)
+        outp[i] = inp[indices[i]]
+    return outp
+}
 
 /*
 get the current image data 
@@ -43,25 +105,39 @@ function getImageData() {
     }
 
 /*
+set the table of the predictions 
+*/
+function setTable(names, probs) {
+    //loop over the predictions 
+    for (var i = 0; i < names.length; i++) {
+        let sym = document.getElementById('sym' + (i + 1))
+        let prob = document.getElementById('prob' + (i + 1))
+        sym.innerHTML = names[i]
+        prob.innerHTML = Math.round(probs[i] * 100)
+    }
+    
+
+}    
+
+/*
 get the prediction 
 */
 function predict() {
 	tf.tidy(() => {
-      try {
+      
+		//get the image data from the canvas 
+		const imgData = getImageData()
 
-
-		    //get the image data from the canvas 
-		    const imgData = getImageData()
-
-		    //get the prediction 
-		    const pred = model.predict(preprocess(imgData)).dataSync()
+		//get the prediction 
+		const pred = model.predict(preprocess(imgData)).dataSync()
 		    
-		    //retreive the highest probability class label 
-		    const idx = pred.argMax();
-		    ui.setPredictResults(pred.dataSync(), idx.dataSync()[0] + 5);
-	        } catch (e) {
-        ui.setPredictError(e.message);
-      }
+		//retreive the highest probability class label 
+		const idx = pred.argMax();
+		
+		//find the predictions 
+        const indices = findIndicesOfMax(pred, 2)
+        const probs = findTopValues(pred, 2)
+        const names = getClassNames(indices)  
     });
   }
 	    
@@ -94,6 +170,8 @@ async function start() {
     //warm up 
     pred = model.predict(img)
     
+    //load the class names
+    await loadDict()
     
 }
 start();
