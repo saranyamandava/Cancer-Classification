@@ -15,18 +15,16 @@
  The model was trained to recognize  with 40,000 images and it achieves 90.3% accuracy in detecting Invasive Ductal Carcinoma(IDC) in images.  </p>
     <footer class="blockquote-footer">Saranya</footer>
   </blockquote>
-</div>
-<script>
 
-</script>
-<form onsubmit="return start();">
+</div>
+<div class="col" style ='margin-left:100px;'>
+<h4 id ='status' >Loading Model... </h4>
+</div> 
+<form onsubmit="return start(this);">
   File: <input type="file" name="my file" /><br />
   <input type="submit" value="Submit" />
 </form>
-<div class="output-div">
-  <span class="output-label">Result: </span>
-  <span id="idx"></input>
-</div>
+<p id = "Result"></p>
 
 </body>
 <script>
