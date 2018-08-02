@@ -106,7 +106,7 @@ function setTable(names, probs) {
         sym.innerHTML = names[i]
         prob.innerHTML = Math.round(probs[i] * 100)
     }
-    
+    document.getElementById("Result").innerHTML = sym.innerHTML[0]; 
 
 }    
 
