@@ -83,7 +83,7 @@ function findIndicesOfMax(inp, count) {
 }
 
 /*
-find the top 5 predictions
+find the predictions
 */
 function findTopValues(inp, count) {
     var outp = [];
