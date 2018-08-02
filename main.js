@@ -1,4 +1,3 @@
-import * as tf from '@tensorflow/tfjs';
 
 /*
 variables
@@ -30,7 +29,7 @@ function Validate(oForm) {
         }
     }
   
-    return img;
+    return true;
 }
 /*
 get the the class names 
@@ -95,14 +94,6 @@ function findTopValues(inp, count) {
     return outp
 }
 
-/*
-get the current image data 
-*/
-function getImageData() {
-
-    imgData = validate(oForm)
-    return imgData
-    }
 
 /*
 set the table of the predictions 
@@ -122,12 +113,9 @@ function setTable(names, probs) {
 /*
 get the prediction 
 */
-function predict() {
+function predict(imgData) {
 	tf.tidy(() => {
       
-		//get the image data from the canvas 
-		const imgData = getImageData()
-
 		//get the prediction 
 		const pred = model.predict(preprocess(imgData)).dataSync()
 		    
@@ -137,7 +125,9 @@ function predict() {
 		//find the predictions 
         const indices = findIndicesOfMax(pred, 2)
         const probs = findTopValues(pred, 2)
-        const names = getClassNames(indices)  
+        const names = getClassNames(indices) 
+        //set the table 
+        setTable(names, probs) 
     });
   }
 	    
@@ -162,16 +152,17 @@ return tf.tidy(()=>{
 load the model
 */
 
-async function start() {
+async function start(img) {
     
-    //load the model 
-    model = await tf.loadModel('model/model.json')
+    if(Validate(img)):
+        //load the model 
+        model = await tf.loadModel('model/model.json')
     
-    //warm up 
-    pred = model.predict(img)
+        //warm up 
+        pred = model.predict(img)
     
-    //load the class names
-    await loadDict()
+        //load the class names
+        await loadDict()
     
 }
 start();
