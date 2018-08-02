@@ -4,7 +4,7 @@ variables
 */
 var model;
 var img;
-var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];    
+var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".png"];    
 function Validate(oForm) {
     img = oForm.getElementsByTagName("input");
     for (var i = 0; i < img.length; i++) {
@@ -83,7 +83,7 @@ function findIndicesOfMax(inp, count) {
 }
 
 /*
-find the predictions
+find predictions
 */
 function findTopValues(inp, count) {
     var outp = [];
@@ -106,7 +106,7 @@ function setTable(names, probs) {
         sym.innerHTML = names[i]
         prob.innerHTML = Math.round(probs[i] * 100)
     }
-    document.getElementById("Result").innerHTML = sym.innerHTML[0]; 
+    document.getElementById("Result").innerHTML = sym.innerHTML[0];
 
 }    
 
@@ -154,10 +154,11 @@ load the model
 
 async function start(img) {
     
-    if(Validate(img)):
+    if(Validate(img))
         //load the model 
         model = await tf.loadModel('model/model.json')
-    
+        
+        document.getElementById('status').innerHTML = 'Model Loaded';
         //warm up 
         pred = model.predict(img)
     
