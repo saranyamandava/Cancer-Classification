@@ -156,7 +156,7 @@ return tf.tidy(()=>{
 
 async function start(){
 	img = document.getElementById('image').files[0];
-	if(Validate(img)){
+	// if(Validate(img)){
 	    
 	    
         
@@ -174,10 +174,10 @@ async function start(){
         //load the class names
         await loadDict()
         console.log('img')
-    }
-    else{
-    	console.log('not valid file')
-    }
+    //}
+   // else{
+    	//console.log('not valid file')
+    //}
 				}	
 
 					  
