@@ -9,8 +9,8 @@ variables
 var model;
 var img;
 var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".png"];    
-function Validate(oForm) {
-    img = oForm.getElementsByTagName("input");
+function Validate(img) {
+    //img = .getElementsByTagName("input");
     for (var i = 0; i < img.length; i++) {
         var oInput = img[i];
         if (oInput.type == "file") {
