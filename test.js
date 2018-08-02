@@ -155,8 +155,10 @@ return tf.tidy(()=>{
 }
 
 async function start(){
+	img = document.getElementById('image').files[0];
+	if(Validate(img)){
 	    
-	    img = document.getElementById('image').files[0];
+	    
         
         model = await tf.loadModel('model/model.json')
         
@@ -172,6 +174,10 @@ async function start(){
         //load the class names
         await loadDict()
         console.log('img')
+    }
+    else{
+    	console.log('not valid file')
+    }
 				}	
 
 					  
